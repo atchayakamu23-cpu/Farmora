@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+    <div class="hero-content">
+        <span class="hero-label">FRESH • LOCAL • TRUSTED</span>
+        <h1>Fresh From Local Farms</h1>
+        <p>Buy fresh farm products directly from local farmers.</p>
+        <a href="{% url 'product_list' %}" class="btn">Explore Products</a>
+    </div>
+</section>
+
+<section class="features">
+    <div class="feature-card">
+        <div class="feature-icon">🥬</div>
+        <h2>Fresh Products</h2>
+        <p>Find products supplied by local farmers.</p>
+    </div>
+    <div class="feature-card">
+        <div class="feature-icon">🤝</div>
+        <h2>Support Farmers</h2>
+        <p>Farmers can sell their products directly to customers.</p>
+    </div>
+    <div class="feature-card">
+        <div class="feature-icon">🛒</div>
+        <h2>Easy Ordering</h2>
+        <p>Browse, add to cart and place orders easily.</p>
+    </div>
+</section>
+
+<section class="home-cta">
+    <h2>Ready to shop local?</h2>
+    <a href="{% url 'product_list' %}" class="btn">Shop Now</a>
+</section>
+{% endblock %}

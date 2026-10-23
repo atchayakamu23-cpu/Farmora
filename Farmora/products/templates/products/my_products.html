@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="products-page">
+    <div class="page-heading">
+        <div>
+            <h1>My Products</h1>
+            <p>Products added by you.</p>
+        </div>
+        <a href="{% url 'add_product' %}" class="btn">+ Add Product</a>
+    </div>
+
+    <div class="product-grid">
+        {% for product in products %}
+        <div class="product-card">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            {% else %}
+                <div class="no-image">🌾</div>
+            {% endif %}
+            <div class="product-info">
+                <h2>{{ product.name }}</h2>
+                <p>₹{{ product.price }} / {{ product.unit }}</p>
+                <p>Stock: {{ product.quantity }} {{ product.unit }}</p>
+                <p>Status: {% if product.available %}Available{% else %}Hidden{% endif %}</p>
+                <div class="action-row">
+                    <a href="{% url 'edit_product' product.id %}" class="secondary-btn">Edit</a>
+                    <a href="{% url 'delete_product' product.id %}" class="danger-btn">Delete</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="empty-state">
+            <h2>No products yet.</h2>
+            <a href="{% url 'add_product' %}" class="btn">Add Product</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

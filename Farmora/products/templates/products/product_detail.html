@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="product-detail">
+    <div class="product-image">
+        {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+        {% else %}
+            <div class="large-no-image">🌾</div>
+        {% endif %}
+    </div>
+
+    <div class="product-details">
+        <span class="category-badge">{{ product.category.name }}</span>
+        <h1>{{ product.name }}</h1>
+        <p class="price">₹{{ product.price }} / {{ product.unit }}</p>
+        <p>{{ product.description }}</p>
+        <div class="detail-info">
+            <p><strong>Stock:</strong> {{ product.quantity }} {{ product.unit }}</p>
+            <p><strong>Farmer:</strong> {{ product.farmer.username }}</p>
+        </div>
+
+        {% if user.is_authenticated %}
+            {% if user.profile.role == "customer" %}
+                {% if product.quantity > 0 and product.available %}
+                <form method="POST" action="{% url 'add_to_cart' product.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn">Add to Cart</button>
+                </form>
+                {% else %}
+                    <p class="out-stock">Out of stock</p>
+                {% endif %}
+            {% endif %}
+        {% else %}
+            <a href="{% url 'login' %}" class="btn">Login to Buy</a>
+        {% endif %}
+    </div>
+</div>
+
+<section class="reviews-section">
+    <h2>Customer Reviews</h2>
+    {% for review in product.reviews.all %}
+    <div class="review-card">
+        <strong>{{ review.user.username }}</strong>
+        <span class="stars">
+            {% for i in "12345" %}
+                {% if forloop.counter <= review.rating %}★{% else %}☆{% endif %}
+            {% endfor %}
+        </span>
+        <p>{{ review.comment }}</p>
+        {% if user == review.user %}
+        <form method="POST" action="{% url 'delete_review' review.id %}" class="inline-form">
+            {% csrf_token %}
+            <button type="submit" class="danger-link">Delete</button>
+        </form>
+        {% endif %}
+    </div>
+    {% empty %}
+        <p>No reviews yet.</p>
+    {% endfor %}
+
+    {% if user.is_authenticated and user.profile.role == "customer" %}
+        <a href="{% url 'add_review' product.id %}" class="btn">Write a Review</a>
+    {% endif %}
+</section>
+{% endblock %}

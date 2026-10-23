@@ -1,0 +1,1 @@
+Place your optional farm.jpg image here if you want a background image.

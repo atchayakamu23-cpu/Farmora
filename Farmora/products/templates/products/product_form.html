@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="form-page">
+    <div class="form-card wide-form">
+        <h1>{{ page_title }}</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group">
+                <label>{{ field.label }}</label>
+                {{ field }}
+                {% for error in field.errors %}
+                    <small class="error">{{ error }}</small>
+                {% endfor %}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn">Save Product</button>
+            <a href="{% url 'my_products' %}" class="secondary-btn">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

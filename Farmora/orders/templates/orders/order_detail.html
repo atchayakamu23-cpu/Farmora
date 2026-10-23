@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-container">
+    <div class="order-detail-card">
+        <h1>Order #{{ order.id }}</h1>
+        <div class="status-large">{{ order.get_status_display }}</div>
+        <p><strong>Date:</strong> {{ order.created_at|date:"d M Y, h:i A" }}</p>
+        <p><strong>Address:</strong> {{ order.address }}</p>
+        <p><strong>Phone:</strong> {{ order.phone }}</p>
+        <h2>Items</h2>
+        {% for item in order.items.all %}
+            <div class="summary-row">
+                <span>{{ item.product.name }} × {{ item.quantity }}</span>
+                <strong>₹{{ item.total_price }}</strong>
+            </div>
+        {% endfor %}
+        <h2 class="total-line">Total: ₹{{ order.total_amount }}</h2>
+    </div>
+</div>
+{% endblock %}
